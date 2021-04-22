@@ -1,0 +1,66 @@
+.ItemWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.75rem 0 0.75rem 0;
+  border-bottom: 1px solid var(--gray-100);
+
+  p {
+    font-family: Inter, sans-serif;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+  }
+}
+
+.PodCastTitle {
+  position: relative;
+  width: 20rem;
+  display: flex;
+  align-items: center;
+
+  font-family: Lexend, sans-serif;
+  font-weight: 600;
+
+  img {
+    height: 2.5rem;
+    margin-right: 1rem;
+  }
+}
+
+.title:hover + .fullTitle {
+  visibility: visible;
+}
+
+.PodCastTitle .fullTitle {
+  position: absolute;
+  top: -4rem;
+  left: 4rem;
+  visibility: hidden;
+
+  width: 16.25rem;
+
+  background-color: var(--purple-300);
+  color: white;
+  padding: 1rem;
+  text-align: justify;
+
+  border-radius: 1rem;
+}
+
+.playButton {
+  background: transparent;
+  border: 0;
+  font-size: 0;
+
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: 0.625rem;
+  border: 1px solid var(--gray-100);
+}
+
+.members {
+  width: 200px;
+  text-align: justify;
+}
