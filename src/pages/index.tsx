@@ -1,6 +1,6 @@
 import {GetStaticProps} from 'next';
 
-import styles from '../styles/home.module.scss'
+import styles from '../styles/pages/home.module.scss'
 
 import {api} from '../services/api'
 
@@ -8,20 +8,19 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { format, parseISO } from "date-fns";
 
 import { CardPodcast } from "../components/CardPodcast";
-import { PodcastItem } from "../components/PodcastItem";
+import { AllEpisodesList } from "../components/AllEpisodesList";
 import { convertDurationToTimeString } from '../Utils/convertDurationToTimeString';
 
 export type EpisodeProps = {
     id: string,
     title: string,
-    truncatedTitle: string,
     thumbnail: string,
     members: string;
     publishedAt: string;
     duration: number,
     durationAsString: string;
-    description: string;
     url: string;
+    description: string;
 }
 
 type HomeProps = {
@@ -38,14 +37,13 @@ export default function Home(props: HomeProps) {
           {props.latestEpisodes.map(episode => {
             return (
               <CardPodcast 
-                key={episode.id} 
+                key={episode.id}
+                id={episode.id}
                 title={episode.title}
-                description={episode.description}
                 durationAsString={episode.durationAsString}
                 publishedAt={episode.publishedAt}
                 thumbnail={episode.thumbnail}
                 members={episode.members}
-                truncatedTitle={episode.truncatedTitle}
               />
             )
           })}
@@ -54,21 +52,9 @@ export default function Home(props: HomeProps) {
 
       <section className={styles.todosEpisodios}>
         <h2>Todos os episódios</h2>
-        <div >
-        {props.allEpisodes.map(episode => {
-            return (
-              <PodcastItem 
-                key={episode.id}
-                title={episode.title}
-                durationAsString={episode.durationAsString}
-                publishedAt={episode.publishedAt}
-                thumbnail={episode.thumbnail}
-                members={episode.members}
-                truncatedTitle={episode.truncatedTitle}
-              />
-            )
-          })}
-        </div>
+        <AllEpisodesList
+          allEpisodes={props.allEpisodes}
+        />
       </section>
     </div>
   )
@@ -87,19 +73,18 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
       id: episode.id,
       title: episode.title,
-      truncatedTitle: `${episode.title.slice(0, 30)}...`,
       thumbnail: episode.thumbnail,
       members: episode.members,
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR}),
       duration: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      description: episode.description,
       url: episode.file.url,
+      description: episode.description,
     }
   })
   
   const latestEpisodes = episodes.slice(0, 2);
-  const allEpisodes = episodes.slice(2, episodes.lenght);
+  const allEpisodes = episodes.slice(2, episodes.length);
 
   return {
     props: {

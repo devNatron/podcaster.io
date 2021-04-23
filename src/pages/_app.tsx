@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
         <Header/>
         <Component {...pageProps} />
       </main>
-      <Player/>
+      <Player className={styles.player}/>
     </div>
   )
 }
