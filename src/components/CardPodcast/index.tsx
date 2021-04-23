@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import { EpisodeProps } from '../../pages'
 import styles from './styles.module.scss'
+import Link from 'next/link'
 
-export function CardPodcast({title, durationAsString, members, publishedAt, thumbnail, truncatedTitle}:Partial<EpisodeProps>){
+export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail}:Partial<EpisodeProps>){
   return(
     <div className={styles.cardWrapper}>
       <Image className={styles.thumbnail}
@@ -13,12 +14,16 @@ export function CardPodcast({title, durationAsString, members, publishedAt, thum
         objectFit="cover"
       />
       <div className={styles.cardInfoWrapper}>
-        <strong className={styles.title}>{truncatedTitle}</strong>
+        <strong className={styles.title}>
+          <Link href={`/episodes/${id}`}>
+            <a>{title}</a>
+          </Link>
+        </strong>
         <p className={styles.fullTitle}>{title}</p>
         <div className={styles.cardInfo}>
-          <div>
-            <p>{members}</p>
-            <div className={styles.statusInfo}>
+          <div className={styles.episodeDetailsWrapper}>
+            <p className={styles.members}>{members}</p>
+            <div className={styles.episodeDetails}>
               <p>{publishedAt}</p>
               <span className={styles.ponto}></span>
               <p>{durationAsString}</p>
