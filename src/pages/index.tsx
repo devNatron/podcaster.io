@@ -44,6 +44,8 @@ export default function Home(props: HomeProps) {
                 publishedAt={episode.publishedAt}
                 thumbnail={episode.thumbnail}
                 members={episode.members}
+                duration={episode.duration}
+                url={episode.url}
               />
             )
           })}
