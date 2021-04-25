@@ -2,8 +2,12 @@ import Image from 'next/image'
 import { EpisodeProps } from '../../pages'
 import styles from './styles.module.scss'
 import Link from 'next/link'
+import { useContext } from 'react'
+import { PlayerContext } from '../../contexts/PlayerContext'
 
-export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail}:Partial<EpisodeProps>){
+export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail, duration, url}:Partial<EpisodeProps>){
+  const {play} = useContext(PlayerContext)
+  
   return(
     <div className={styles.cardWrapper}>
       <Image className={styles.thumbnail}
@@ -29,7 +33,11 @@ export function CardPodcast({id, title, durationAsString, members, publishedAt, 
               <p>{durationAsString}</p>
             </div>
           </div>
-          <button type='button' className={styles.playButton}>
+          <button 
+            type='button' 
+            className={styles.playButton}
+            onClick={() => play({title, members, thumbnail, duration, url})}
+          >
             <img src="/play-green.svg" alt="Botão tocar"/>
           </button>
         </div>
