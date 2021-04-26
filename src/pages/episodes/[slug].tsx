@@ -5,11 +5,13 @@ import { parseISO } from 'date-fns'
 import { convertDurationToTimeString } from '../../Utils/convertDurationToTimeString'
 import { ptBR } from 'date-fns/locale'
 import format from 'date-fns/format'
-import { EpisodeProps } from '..'
 
 import styles from '../../styles/pages/episode.module.scss'
 import Image from 'next/image'
-
+import { useContext } from 'react'
+import { PlayerContext } from '../../contexts/PlayerContext'
+import Link from 'next/link'
+import Head from 'next/head'
 
 type Episode = {
   id: string,
@@ -28,13 +30,18 @@ type EpisodeProps = {
 }
 
 export default function Episodes({episode}: EpisodeProps){
-  const router = useRouter()
+  const {play} = useContext(PlayerContext)
   return(
     <div className={styles.episodeContainer}>
+      <Head>
+        <title>{episode.title} | Podcaster.io</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
-        <button type={'button'}>
-          <img src="/arrow-left.svg" alt="Voltar"/>
-        </button>
+        <Link href="/">
+          <button type={'button'}>
+            <img src="/arrow-left.svg" alt="Voltar"/>
+          </button>
+        </Link>
         <Image
           src={episode.thumbnail}
           width={700}
@@ -43,7 +50,10 @@ export default function Episodes({episode}: EpisodeProps){
           objectFit='cover'
         >
         </Image>
-        <button type={'button'}>
+        <button 
+          type={'button'}
+          onClick={() => play(episode.id)}
+        >
           <img src="/play.svg" alt="Tocar"/>
         </button>
       </div>
