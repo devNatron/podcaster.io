@@ -2,21 +2,26 @@ import Image from 'next/image'
 import { EpisodeProps } from '../../pages'
 import styles from './styles.module.scss'
 import Link from 'next/link'
+import { useContext } from 'react'
+import { PlayerContext } from '../../contexts/PlayerContext'
 
 type AllEpisodesListProps = {
   allEpisodes: EpisodeProps[]
 }
 
 export function AllEpisodesList({allEpisodes}:AllEpisodesListProps){
+  const {play} = useContext(PlayerContext)
   return(
     <div className={styles.tableContainer}>
       <table cellSpacing={0}>
-        <col width="60px" />
-        <col width="300px" />
-        <col width="200px" />
-        <col width="100px" />
-        <col width="100px" />
-        <col width="60px" />
+        <colgroup>
+          <col width="60px" />
+          <col width="300px" />
+          <col width="200px" />
+          <col width="100px" />
+          <col width="100px" />
+          <col width="60px" />
+        </colgroup>
         <thead>
           <tr>
             <th></th>
@@ -30,7 +35,7 @@ export function AllEpisodesList({allEpisodes}:AllEpisodesListProps){
         <tbody>
             {allEpisodes.map(episode => {
               return(
-                <tr>
+                <tr key={episode.id}>
                   <td>
                     <Image className={styles.thumbnail}
                       width={192}
@@ -49,7 +54,11 @@ export function AllEpisodesList({allEpisodes}:AllEpisodesListProps){
                   <td>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type='button' className={styles.playButton}>
+                    <button 
+                      type='button' 
+                      className={styles.playButton}
+                      onClick={() => play(episode.id)}
+                    >
                       <img src="/play-green.svg" alt="Botão tocar"/>
                     </button>
                   </td>
