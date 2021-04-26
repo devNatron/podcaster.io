@@ -1,6 +1,5 @@
 import {GetStaticProps} from 'next';
-
-import styles from '../styles/pages/home.module.scss'
+import Head from 'next/head'
 
 import {api} from '../services/api'
 
@@ -10,6 +9,10 @@ import { format, parseISO } from "date-fns";
 import { CardPodcast } from "../components/CardPodcast";
 import { AllEpisodesList } from "../components/AllEpisodesList";
 import { convertDurationToTimeString } from '../Utils/convertDurationToTimeString';
+import { PlayerContext } from '../contexts/PlayerContext';
+import { useContext, useEffect } from 'react';
+
+import styles from '../styles/pages/home.module.scss'
 
 export type EpisodeProps = {
     id: string,
@@ -28,13 +31,24 @@ type HomeProps = {
   allEpisodes: EpisodeProps[]
 }
 
-export default function Home(props: HomeProps) {
+export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
+  const {setPlayList} = useContext(PlayerContext)
+
+  const episodeList = [...latestEpisodes, ...allEpisodes]
+
+  useEffect(() => {
+    setPlayList(episodeList)
+  }, [])
+
   return (
     <div className={styles.homeContainer}>
+      <Head>
+        <title>Home | Podcaster.io</title>
+      </Head>
       <section className={styles.ultimosLancamentos}>
         <h2>Ultimos lançamentos</h2>
         <div className={styles.ultimosLancamentosCards}>
-          {props.latestEpisodes.map(episode => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <CardPodcast 
                 key={episode.id}
@@ -55,7 +69,7 @@ export default function Home(props: HomeProps) {
       <section className={styles.todosEpisodios}>
         <h2>Todos os episódios</h2>
         <AllEpisodesList
-          allEpisodes={props.allEpisodes}
+          allEpisodes={allEpisodes}
         />
       </section>
     </div>
