@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { PlayerContext } from '../../contexts/PlayerContext'
 
-export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail, duration, url, index}:Partial<EpisodeProps>&{index: number}){
+export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail}:Partial<EpisodeProps>){
   const {play} = useContext(PlayerContext)
   
   return(
