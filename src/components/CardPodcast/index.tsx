@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { PlayerContext } from '../../contexts/PlayerContext'
 
-export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail, duration, url}:Partial<EpisodeProps>){
+export function CardPodcast({id, title, durationAsString, members, publishedAt, thumbnail, duration, url, index}:Partial<EpisodeProps>&{index: number}){
   const {play} = useContext(PlayerContext)
   
   return(
@@ -36,7 +36,7 @@ export function CardPodcast({id, title, durationAsString, members, publishedAt, 
           <button 
             type='button' 
             className={styles.playButton}
-            onClick={() => play({title, members, thumbnail, duration, url})}
+            onClick={() => play(id)}
           >
             <img src="/play-green.svg" alt="Botão tocar"/>
           </button>
